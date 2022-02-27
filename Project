@@ -5,7 +5,7 @@ import plotly.express as px
 import numpy as np
 import plotly.graph_objects as pgo
 
-
+link to data = https://www.kaggle.com/andrewmvd/police-deadly-force-usage-us 
 
 #Imported data 
 data = pd.read_csv('fatal-police-shootings-data.csv')
