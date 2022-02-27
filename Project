@@ -1,0 +1,38 @@
+#Importing libraries 
+import pandas as pd
+import matplotlib.pyplot as plt
+import plotly.express as px
+import numpy as np
+import plotly.graph_objects as pgo
+
+
+
+#Imported data 
+data = pd.read_csv('fatal-police-shootings-data.csv')
+(data.head())
+
+#Data Cleaning
+data.isna().any()
+
+data[["armed", "gender", "race", "flee"]] = data[["armed", "gender", "race", "flee"]].fillna(value="N/A")
+
+(f'Data is {data.duplicated().any()}')
+
+#Choropleth map 
+
+fig = px.choropleth(locations=data['state'].value_counts().index, locationmode="USA-states", color=data['state'].value_counts(), scope="usa", color_continuous_scale=px.colors.sequential.OrRd, labels={'locations': 'State', 'color': 'Number of Deaths'})
+fig.show()
+
+# Creating plot
+fig = pgo.Figure(data=[pgo.Pie(labels=data['signs_of_mental_illness'].value_counts().index, 
+values=data['signs_of_mental_illness'].value_counts())])
+fig.show()
+
+fig = pgo.Figure(data=[pgo.Pie(labels=data['body_camera'].value_counts().index, values=data['body_camera'].value_counts())])
+fig.show()
+
+#Age and Mental Illness Bar Distribution
+manner2 = data.groupby(["age", "signs_of_mental_illness"])["name"].count().reset_index()
+man2 = px.bar(manner2, color="signs_of_mental_illness", y="name",x="age")
+man2.update_layout(yaxis_title="Number of Deaths")
+man2.show()
